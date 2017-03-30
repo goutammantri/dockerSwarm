@@ -1,0 +1,24 @@
+---
+- name: master_instance
+  hosts: master
+  remote_user: ubuntu
+  become: yes
+  become_method: sudo
+  become_user: root
+  roles:
+    - masternode
+
+- name: slave-node
+  remote_user: ubuntu
+  hosts: slaves
+  become: yes
+  become_method: sudo
+  become_user: root
+  roles:
+    - slavenodes
+   
+- name: localhost
+  hosts: localhost
+  roles:
+    - curls
+

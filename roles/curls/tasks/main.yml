@@ -1,0 +1,45 @@
+---
+#checks the images in slave1
+- name: check images
+  shell: curl  https://{{ groups['slaves'][0] }}:2376/images/json  --cert /home/keys/cert.pem --key  /home/keys/key.pem --cacert  /home/keys/ca.pem
+  register: slave1_images
+
+#prints the images of slave1  
+- debug:
+    msg: "the output is {{ slave1_images.stdout }}"
+        
+#checks the images in slave2        
+- name: check images
+  shell: curl  https://{{ groups['slaves'][1] }}:2376/images/json  --cert /home/keys/cert.pem --key  /home/keys/key.pem --cacert  /home/keys/ca.pem
+  register: slave2_images
+
+#prints the images of slave2   
+- debug:
+    msg: "the output is {{ slave2_images.stdout }}"    
+
+#checks the images in slave3
+- name: check images
+  shell: curl  https://{{ groups['slaves'][2] }}:2376/images/json  --cert /home/keys/cert.pem --key  /home/keys/key.pem --cacert  /home/keys/ca.pem
+  register: slave3_images
+
+#prints the images of slave3
+- debug:
+    msg: "the output is {{ slave3_images.stdout }}" 
+        
+#checks the images in slave4
+- name: check images
+  shell: curl  https://{{ groups['slaves'][3] }}:2376/images/json --cert /home/keys/cert.pem --key  /home/keys/key.pem --cacert  /home/keys/ca.pem
+  register: slave4_images
+
+#prints the images of slave4    
+- debug:
+    msg: "the output is {{ slave4_images.stdout }}"
+
+#checks the images in masternode
+- name: check images
+  shell: curl  https://{{ groups['master'][0] }}:2376/images/json --cert /home/keys/cert.pem --key  /home/keys/key.pem --cacert  /home/keys/ca.pem
+  register: master_image
+
+#prints the images of masternode
+- debug:
+    msg: "the output is {{ master_image.stdout }}"
