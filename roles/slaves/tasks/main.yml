@@ -8,15 +8,18 @@
 - name: Join the pending Swarm worker nodes.
   shell: docker swarm join --token {{ hostvars [groups['master'][0]] ['managertoken'] }} {{ groups['master'][0] }}:2377
  
-#copies file from localhost to remote host
+#copy file from local host to remote host  
 - name: copy file if it exists
-  copy: src=/home/keys/ca.pem dest=/home/ubuntu
-  #when: file.stat.exists
+  copy: 
+    src: "{{ ca_pem }}" 
+    dest: "{{ remote_key_path }}"
 
-#copies file from localhost to remote host
+
+#copy file from local host to remote host 
 - name: copy file if it exists
-  copy: src=/home/keys/ca-key.pem dest=/home/ubuntu
-  #when: file.stat.exists
+  copy: 
+    src: "{{ ca_key }}" 
+    dest: "{{ remote_key_path }}"
   
 #copies file to docker.service  
 - name: copy files 
@@ -49,7 +52,7 @@
   
 #checks images 
 - name: check images
-  shell: curl https://{{ groups['master'][0] }}:2376/images/json  --cert /opt/keys/cert.pem --key  /opt/keys/key.pem --cacert  /opt/keys/ca.pem
+  shell: curl https://{{ groups['master'][0] }}:2376/images/json  --cert "{{ keys_path }}"/cert.pem --key  "{{ keys_path }}"/key.pem --cacert  "{{ keys_path }}"/ca.pem
   register: images
 
 #prints the images        
